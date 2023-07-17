@@ -9,6 +9,7 @@ const NAME = faker.person.firstName();
 export default function App() {
   const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
+  const likeMessage = useMutation(api.messages.like);
   const [newMessageText, setNewMessageText] = useState("");
 
   useEffect(() => {
@@ -29,7 +30,17 @@ export default function App() {
           className={message.author === NAME ? "message-mine" : ""}
         >
           <div>{message.author}</div>
-          <p>{message.body}</p>
+
+          <p>
+            {message.body}
+            <button
+              onClick={async (e) => {
+                await likeMessage({ messageId: message._id });
+              }}
+            >
+              {message.likes ? <span>{message.likes}</span> : null} 🤍
+            </button>
+          </p>
         </article>
       ))}
       <form

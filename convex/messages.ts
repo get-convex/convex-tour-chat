@@ -17,7 +17,7 @@ export const send = mutation({
   args: { body: v.string(), author: v.string() },
   handler: async ({ db, scheduler }, { body, author }) => {
     // Send our message.
-    await db.insert("messages", { body, author });
+    await db.insert("messages", { body, author, likes: 0 });
 
     if (body.indexOf("@gpt") !== -1) {
       // Fetch the latest n messages to send as context.
@@ -29,9 +29,19 @@ export const send = mutation({
       const messageId = await db.insert("messages", {
         author: "ChatGPT",
         body: "Let me think about that...",
+        likes: 0,
       });
       // Schedule an action that calls ChatGPT and updates the message.
       scheduler.runAfter(0, internal.openai.chat, { messages, messageId });
     }
+  },
+});
+
+export const like = mutation({
+  args: { messageId: v.id("messages") },
+  handler: async ({ db }, { messageId }) => {
+    const message = await db.get(messageId);
+    if (!message) throw new Error("Error liking message: message ID not found");
+    await db.patch(message._id, { likes: (message.likes || 0) + 1 });
   },
 });
