@@ -9,17 +9,11 @@ const NAME = faker.person.firstName();
 export default function App() {
   const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
-  const typers = useQuery(api.typing.list);
-
-  const otherTypers = typers?.filter(({ author }) => author !== NAME);
-
-  const setTyping = useMutation(api.typing.set);
-
   const [newMessageText, setNewMessageText] = useState("");
 
   useEffect(() => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  }, [messages, otherTypers]);
+  }, [messages?.length]);
 
   return (
     <main className="chat">
@@ -28,7 +22,6 @@ export default function App() {
         <p>
           Connected as <strong>{NAME}</strong>
         </p>
-        <p>Typing: {typers?.length || 0} </p>
       </header>
       {messages?.map((message) => (
         <article
@@ -39,22 +32,11 @@ export default function App() {
           <p>{message.body}</p>
         </article>
       ))}
-      {otherTypers?.length ? (
-        <article key="typers">
-          <div>
-            {otherTypers.length <= 3
-              ? otherTypers.map(({ author }) => author).join(" & ")
-              : "Several people"}
-            &nbsp;typing...
-          </div>
-        </article>
-      ) : null}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
           await sendMessage({ body: newMessageText, author: NAME });
           setNewMessageText("");
-          await setTyping({ author: NAME, typing: false });
         }}
       >
         <input
@@ -62,7 +44,6 @@ export default function App() {
           onChange={async (e) => {
             const text = e.target.value;
             setNewMessageText(text);
-            await setTyping({ author: NAME, typing: !!text });
           }}
           placeholder="Write a message…"
         />

@@ -6,8 +6,4 @@ export default defineSchema({
     author: v.string(),
     body: v.string(),
   }),
-  typers: defineTable({
-    author: v.string(),
-    typing: v.boolean(),
-  }),
 });
