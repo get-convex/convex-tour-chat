@@ -1,7 +1,7 @@
 import { internal } from "./_generated/api";
-import { internalMutation, mutation } from "./_generated/server";
+import { mutation } from "./_generated/server";
 import { query } from "./_generated/server";
-import { Doc, Id } from "./_generated/dataModel";
+import { Doc } from "./_generated/dataModel";
 import { v } from "convex/values";
 
 export const list = query({
@@ -28,18 +28,10 @@ export const send = mutation({
       // Insert a message with a placeholder body.
       const messageId = await db.insert("messages", {
         author: "ChatGPT",
-        body: "...",
+        body: "Let me think about that...",
       });
       // Schedule an action that calls ChatGPT and updates the message.
       scheduler.runAfter(0, internal.openai.chat, { messages, messageId });
     }
-  },
-});
-
-// Updates a message with a new body.
-export const update = internalMutation({
-  args: { messageId: v.id("messages"), body: v.string() },
-  handler: async ({ db }, { messageId, body }) => {
-    await db.patch(messageId, { body });
   },
 });
