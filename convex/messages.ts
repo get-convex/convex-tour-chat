@@ -10,8 +10,7 @@ export const list = query({
   handler: async ({ db }): Promise<Message[]> => {
     // Grab the most recent messages.
     const messages = await db.query("messages").order("desc").take(100);
-    // Reverse the list so that it's in chronological order.
-    return await Promise.all(
+    const messagesWithLikes = await Promise.all(
       messages.map(async (m) => {
         const likes = await db
           .query("likes")
@@ -23,6 +22,8 @@ export const list = query({
         };
       })
     );
+    // Reverse the list so that it's in chronological order.
+    return messagesWithLikes.reverse();
   },
 });
 
@@ -35,8 +36,8 @@ export const send = mutation({
 });
 
 export const like = mutation({
-  args: { author: v.string(), messageId: v.id("messages") },
-  handler: async ({ db }, { author, messageId }) => {
-    await db.insert("likes", { author, messageId });
+  args: { liker: v.string(), messageId: v.id("messages") },
+  handler: async ({ db }, { liker, messageId }) => {
+    await db.insert("likes", { liker, messageId });
   },
 });

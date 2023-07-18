@@ -34,9 +34,9 @@ export default function App() {
           <p>
             {message.body}
             <button
-              className={message.likes ? "shown" : "hidden"}
+              className="shown"
               onClick={async () => {
-                await likeMessage({ author: NAME, messageId: message._id });
+                await likeMessage({ liker: NAME, messageId: message._id });
               }}
             >
               {message.likes ? <span>{message.likes}</span> : null} 🤍
