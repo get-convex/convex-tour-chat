@@ -5,6 +5,9 @@ export default defineSchema({
   messages: defineTable({
     author: v.string(),
     body: v.string(),
-    likes: v.optional(v.number()),
+  }),
+  likes: defineTable({
+    author: v.string(),
+    messageId: v.id("messages"),
   }),
 });

@@ -3,13 +3,13 @@
 }
 
 :root {
-  --primary: #F35D1C;
+  --primary: #f35d1c;
   --primary-text: #111827;
   --secondary-text: #374151;
   --tertiary-text: #4b5563;
   --secondary-background: #f3f4f6;
   --bubbles-background: white;
-  --bubbles-mine-background: #F35D1C;
+  --bubbles-mine-background: #f35d1c;
   --focus-ring: #3b82f680;
 
   color-scheme: light dark;
@@ -17,13 +17,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #F35D1C;
+    --primary: #f35d1c;
     --primary-text: #f9fafb;
     --secondary-text: #f3f4f6;
     --tertiary-text: #e5e7eb;
     --secondary-background: #0f172a;
     --bubbles-background: #374151;
-    --bubbles-mine-background: #F35D1C;
+    --bubbles-mine-background: #f35d1c;
   }
 }
 
@@ -296,7 +296,6 @@ body {
 }
 
 article button {
-  display: none;
   position: absolute;
   bottom: -0.5em;
   right: -0.5em;
@@ -306,6 +305,15 @@ article button {
   z-index: 2;
   min-width: 2em;
   min-height: 1em;
+}
+
+article button.hidden {
+  display: none;
+}
+
+article:hover button,
+article button.shown {
+  display: block;
 }
 
 article button span {
