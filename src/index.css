@@ -296,6 +296,7 @@ body {
 }
 
 article button {
+  display: none;
   position: absolute;
   bottom: -0.5em;
   right: -0.5em;

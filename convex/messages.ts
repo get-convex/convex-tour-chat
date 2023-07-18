@@ -1,10 +1,9 @@
-import { internal } from "./_generated/api";
-import { mutation } from "./_generated/server";
-import { query } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 import { Doc } from "./_generated/dataModel";
 import { v } from "convex/values";
 
 export const list = query({
+  args: {},
   handler: async ({ db }): Promise<Doc<"messages">[]> => {
     // Grab the most recent messages.
     const messages = await db.query("messages").order("desc").take(100);
@@ -15,33 +14,8 @@ export const list = query({
 
 export const send = mutation({
   args: { body: v.string(), author: v.string() },
-  handler: async ({ db, scheduler }, { body, author }) => {
+  handler: async ({ db }, { body, author }) => {
     // Send our message.
-    await db.insert("messages", { body, author, likes: 0 });
-
-    if (body.indexOf("@gpt") !== -1) {
-      // Fetch the latest n messages to send as context.
-      // The default order is by creation time.
-      const messages = await db.query("messages").order("desc").take(10);
-      // Reverse the list so that it's in chronological order.
-      messages.reverse();
-      // Insert a message with a placeholder body.
-      const messageId = await db.insert("messages", {
-        author: "ChatGPT",
-        body: "Let me think about that...",
-        likes: 0,
-      });
-      // Schedule an action that calls ChatGPT and updates the message.
-      scheduler.runAfter(0, internal.openai.chat, { messages, messageId });
-    }
-  },
-});
-
-export const like = mutation({
-  args: { messageId: v.id("messages") },
-  handler: async ({ db }, { messageId }) => {
-    const message = await db.get(messageId);
-    if (!message) throw new Error("Error liking message: message ID not found");
-    await db.patch(message._id, { likes: (message.likes || 0) + 1 });
+    await db.insert("messages", { body, author });
   },
 });
