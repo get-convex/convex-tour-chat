@@ -1,3 +1,4 @@
+import { api } from "./_generated/api";
 import { query, mutation } from "./_generated/server";
 import { Doc } from "./_generated/dataModel";
 import { v } from "convex/values";
@@ -7,6 +8,7 @@ interface Message extends Doc<"messages"> {
 }
 
 export const list = query({
+  args: {},
   handler: async ({ db }): Promise<Message[]> => {
     // Grab the most recent messages.
     const messages = await db.query("messages").order("desc").take(100);
@@ -29,9 +31,23 @@ export const list = query({
 
 export const send = mutation({
   args: { body: v.string(), author: v.string() },
-  handler: async ({ db }, { body, author }) => {
-    // Send our message.
+  handler: async ({ db, scheduler }, { body, author }) => {
+    // Send a new message.
     await db.insert("messages", { body, author });
+
+    if (body.startsWith("@gpt")) {
+      // Schedule an action that calls ChatGPT and responds to the message.
+      scheduler.runAfter(0, api.openai.chat, {
+        messageBody: body,
+      });
+    }
+  },
+});
+
+export const edit = mutation({
+  args: { messageId: v.id("messages"), body: v.string() },
+  handler: async ({ db }, { messageId, body }) => {
+    await db.patch(messageId, { body });
   },
 });
 

@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as init from "../init";
 import type * as messages from "../messages";
+import type * as openai from "../openai";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -28,6 +29,7 @@ import type * as messages from "../messages";
 declare const fullApi: ApiFromModules<{
   init: typeof init;
   messages: typeof messages;
+  openai: typeof openai;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
