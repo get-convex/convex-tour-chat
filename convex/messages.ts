@@ -7,7 +7,7 @@ export const list = query({
     // Grab the most recent messages.
     const messages = await ctx.db.query("messages").order("desc").take(100);
 
-    return messages;
+    return messages.reverse();
   },
 });
 
