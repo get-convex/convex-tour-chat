@@ -307,12 +307,12 @@ article button {
   min-height: 1em;
 }
 
-article button.hidden {
+article button {
   display: none;
 }
 
 article:hover button,
-article button.shown {
+article button:has(span) {
   display: block;
 }
 
