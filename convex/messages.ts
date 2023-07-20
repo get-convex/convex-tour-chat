@@ -7,8 +7,7 @@ export const list = query({
     // Grab the most recent messages.
     const messages = await db.query("messages").order("desc").take(100);
 
-    // Reverse the list so that it's in chronological order.
-    return messages.reverse();
+    return messages;
   },
 });
 
