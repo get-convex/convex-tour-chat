@@ -44,13 +44,6 @@ export const send = mutation({
   },
 });
 
-export const edit = mutation({
-  args: { messageId: v.id("messages"), body: v.string() },
-  handler: async ({ db }, { messageId, body }) => {
-    await db.patch(messageId, { body });
-  },
-});
-
 export const like = mutation({
   args: { liker: v.string(), messageId: v.id("messages") },
   handler: async ({ db }, { liker, messageId }) => {
