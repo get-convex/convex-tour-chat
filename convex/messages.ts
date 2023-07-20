@@ -34,13 +34,6 @@ export const send = mutation({
   handler: async ({ db, scheduler }, { body, author }) => {
     // Send a new message.
     await db.insert("messages", { body, author });
-
-    if (body.startsWith("@gpt")) {
-      // Schedule an action that calls ChatGPT and responds to the message.
-      scheduler.runAfter(0, api.openai.chat, {
-        messageBody: body,
-      });
-    }
   },
 });
 
