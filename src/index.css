@@ -309,6 +309,7 @@ article button {
 
 article button {
   display: none;
+  cursor: pointer;
 }
 
 article:hover button,

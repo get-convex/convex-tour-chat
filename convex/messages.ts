@@ -3,9 +3,9 @@ import { v } from "convex/values";
 
 export const list = query({
   args: {},
-  handler: async ({ db }) => {
+  handler: async (ctx) => {
     // Grab the most recent messages.
-    const messages = await db.query("messages").order("desc").take(100);
+    const messages = await ctx.db.query("messages").order("desc").take(100);
 
     return messages;
   },
@@ -13,8 +13,8 @@ export const list = query({
 
 export const send = mutation({
   args: { body: v.string(), author: v.string() },
-  handler: async ({ db }, { body, author }) => {
+  handler: async (ctx, { body, author }) => {
     // Send a new message.
-    await db.insert("messages", { body, author });
+    await ctx.db.insert("messages", { body, author });
   },
 });
