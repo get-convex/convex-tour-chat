@@ -14,6 +14,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as init from "../init";
 import type * as messages from "../messages";
 
 /**
@@ -25,6 +26,7 @@ import type * as messages from "../messages";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  init: typeof init;
   messages: typeof messages;
 }>;
 export declare const api: FilterApi<
