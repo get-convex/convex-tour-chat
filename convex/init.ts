@@ -1,5 +1,5 @@
 import { api } from "./_generated/api";
-import { internalMutation } from "./_generated/server";
+import { internalMutation, type MutationCtx } from "./_generated/server";
 
 const seedMessages = [
   ["Omar", "Hey there!", 0],
@@ -21,9 +21,13 @@ const seedMessages = [
   ["Omar", "Sounds like a plan", 5000],
 ] as const;
 
-export const seed = internalMutation({
-  args: {},
-  handler: async (ctx) => {
+export default internalMutation({
+  handler: async (ctx: MutationCtx) => {
+    // If this project already has a populated database, do nothing
+    const anyMessage = await ctx.db.query("messages").first();
+    if (anyMessage) return;
+
+    // If not, post each of the seed messages with the given delay
     let totalDelay = 0;
     for (const [author, body, delay] of seedMessages) {
       totalDelay += delay;
@@ -32,14 +36,5 @@ export const seed = internalMutation({
         body,
       });
     }
-  },
-});
-
-export default internalMutation({
-  args: {},
-  handler: async (ctx) => {
-    const anyMessage = await ctx.db.query("messages").first();
-    if (anyMessage) return;
-    await seed(ctx, {});
   },
 });
