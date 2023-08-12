@@ -43,6 +43,10 @@ body {
   padding-bottom: 72px;
 }
 
+button {
+  cursor: pointer;
+}
+
 .chat header {
   position: fixed;
   top: 0;

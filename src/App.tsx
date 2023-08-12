@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
+import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 // For demo purposes. In a real app, you'd have real user data.
@@ -13,8 +13,11 @@ export default function App() {
   const [newMessageText, setNewMessageText] = useState("");
 
   useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  }, [messages?.length]);
+    // Make sure scrollTo works on button click in Chrome
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }, 0);
+  }, [messages]);
 
   return (
     <main className="chat">
