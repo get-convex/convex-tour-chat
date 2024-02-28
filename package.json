@@ -1,5 +1,5 @@
 {
-  "name": "convex-tour-chat-2",
+  "name": "convex-tour-chat-3",
   "version": "0.0.0",
   "scripts": {
     "dev": "npm-run-all --parallel dev:server dev:client",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "convex": "1.10.0",
+    "openai": "^4.6.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "prettier": "2.8.8"
