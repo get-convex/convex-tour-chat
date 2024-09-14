@@ -237,6 +237,8 @@ button {
   z-index: 3;
 }
 
+
+
 @media (prefers-color-scheme: dark) {
   .chat form {
     background-color: rgba(55, 65, 81, 0.8);

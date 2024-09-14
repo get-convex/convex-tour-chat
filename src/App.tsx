@@ -3,6 +3,7 @@ import { api } from "../convex/_generated/api";
 import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
+import * as React from 'react';
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = faker.person.firstName();
 
@@ -23,6 +24,11 @@ export default function App() {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }, 0);
   }, [task]);
+
+  const handlePriorityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPriority = event.target.value;
+    setNewPriority(selectedPriority);
+  };
 
   return (
     <main className="chat">
@@ -76,6 +82,7 @@ export default function App() {
           }}
           placeholder="Task description"
         />
+        
         <input
           value={newDate}
           onChange={async (e) => {
@@ -84,14 +91,15 @@ export default function App() {
           }}
           placeholder="Date due"
         />
-        <input
-          value={newPriority}
-          onChange={async (e) => {
-            const text = e.target.value;
-            setNewPriority(text);
-          }}
-          placeholder="Priority"
-        />
+        <label htmlFor="priority"></label>
+          <select name="chosen-priority" id="priority-answer" onChange={handlePriorityChange}>     
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+              setNewPriority();
+
+          </select>
+
         <button type="submit" disabled={!newName}>
           Send
         </button>
