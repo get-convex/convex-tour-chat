@@ -220,7 +220,7 @@ button {
 }
 
 
-.chat form {
+.chat form  {
   position: fixed;
   bottom: 8px;
   left: 8px;
@@ -245,7 +245,7 @@ button {
   }
 }
 
-.chat input {
+.chat input, .chat select {
   color: #111827;
   width: 100%;
   border: 0;
