@@ -7,17 +7,22 @@ import { faker } from "@faker-js/faker";
 const NAME = faker.person.firstName();
 
 export default function App() {
-  const messages = useQuery(api.messages.list);
-  const sendMessage = useMutation(api.messages.send);
+  const task = useQuery(api.tasks.list);
+  // send adds a new row to the table
+  const sendTask = useMutation(api.tasks.send);
 
-  const [newMessageText, setNewMessageText] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newCategory, setNewCategory] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newPriority, setNewPriority] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
   useEffect(() => {
     // Make sure scrollTo works on button click in Chrome
     setTimeout(() => {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }, 0);
-  }, [messages]);
+  }, [task]);
 
   return (
     <main className="chat">
@@ -27,32 +32,69 @@ export default function App() {
           Connected as <strong>{NAME}</strong>
         </p>
       </header>
-      {messages?.map((message) => (
+      {/* {task?.map((tasks) => (
         <article
-          key={message._id}
-          className={message.author === NAME ? "message-mine" : ""}
+          key={tasks._id}
+          className={tasks.name === NAME ? "message-mine" : ""}
         >
-          <div>{message.author}</div>
+          <div>{tasks.date}</div>
 
-          <p>{message.body}</p>
+          <p>{tasks.category}</p>
         </article>
-      ))}
+      ))} */}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await sendMessage({ body: newMessageText, author: NAME });
-          setNewMessageText("");
+          await sendTask({ name: newName, category: newCategory, date: newDate, priority: newPriority, description: newDescription});
+          setNewName("");
+          setNewCategory("");
+          setNewDate("");
+          setNewPriority("");
+          setNewDescription("");
         }}
       >
         <input
-          value={newMessageText}
+          value={newName}
           onChange={async (e) => {
             const text = e.target.value;
-            setNewMessageText(text);
+            setNewName(text);
           }}
-          placeholder="Write a message…"
+          placeholder="Write the name of the task"
         />
-        <button type="submit" disabled={!newMessageText}>
+        <input
+          value={newCategory}
+          onChange={async (e) => {
+            const text = e.target.value;
+            setNewCategory(text);
+          }}
+          placeholder="Write the category of your task"
+        />
+           
+        <input
+          value={newDescription}
+          onChange={async (e) => {
+            const text = e.target.value;
+            setNewDescription(text);
+          }}
+          placeholder="Describe your task"
+        />
+        <input
+          value={newDate}
+          onChange={async (e) => {
+            const text = e.target.value;
+            setNewDate(text);
+          }}
+          placeholder="Enter the date it the task is due"
+        />
+        <input
+          value={newPriority}
+          onChange={async (e) => {
+            const text = e.target.value;
+            setNewPriority(text);
+          }}
+          placeholder="Choose your priority (easy/medium/hard)"
+        />
+        <button type="submit" disabled={!newName}>
           Send
         </button>
       </form>

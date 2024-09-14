@@ -28,7 +28,7 @@ import type * as messages from "../messages.js";
  */
 declare const fullApi: ApiFromModules<{
   init: typeof init;
-  messages: typeof messages;
+  tasks: typeof tasks;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
