@@ -27,10 +27,7 @@ export default function App() {
   return (
     <main className="chat">
       <header>
-        <h1>Convex Chat</h1>
-        <p>
-          Connected as <strong>{NAME}</strong>
-        </p>
+        <h1>Reach for the Tasks</h1>
       </header>
       {/* {task?.map((tasks) => (
         <article
@@ -59,7 +56,7 @@ export default function App() {
             const text = e.target.value;
             setNewName(text);
           }}
-          placeholder="Write the name of the task"
+          placeholder="Task name"
         />
         <input
           value={newCategory}
@@ -67,7 +64,7 @@ export default function App() {
             const text = e.target.value;
             setNewCategory(text);
           }}
-          placeholder="Write the category of your task"
+          placeholder="Task category"
         />
            
         <input
@@ -76,7 +73,7 @@ export default function App() {
             const text = e.target.value;
             setNewDescription(text);
           }}
-          placeholder="Describe your task"
+          placeholder="Task description"
         />
         <input
           value={newDate}
@@ -84,7 +81,7 @@ export default function App() {
             const text = e.target.value;
             setNewDate(text);
           }}
-          placeholder="Enter the date it the task is due"
+          placeholder="Date due"
         />
         <input
           value={newPriority}
@@ -92,7 +89,7 @@ export default function App() {
             const text = e.target.value;
             setNewPriority(text);
           }}
-          placeholder="Choose your priority (easy/medium/hard)"
+          placeholder="Priority"
         />
         <button type="submit" disabled={!newName}>
           Send
