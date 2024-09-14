@@ -93,8 +93,8 @@ export default function App() {
         />
         <label htmlFor="priority"></label>
           <select name="chosen-priority" defaultValue="Priority" id="priority-answer" onChange={handlePriorityChange}>     
+          <option value="" disabled selected hidden>Priority</option>
               <option value="high">High</option>
-              <option value="" disabled selected hidden>Priority</option>
               <option value="medium">Medium</option>
               <option value="low">Low</option>
               setNewPriority();
