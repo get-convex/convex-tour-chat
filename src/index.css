@@ -166,7 +166,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 24px auto;
-  max-width: 380px;
+  max-width: 480px;
   padding-left: 16px;
   padding-right: calc(16px + 10vw);
   animation: 0.15s ease-in-out message; 
