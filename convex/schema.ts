@@ -6,4 +6,17 @@ export default defineSchema({
     author: v.string(),
     body: v.string(),
   }),
+  categories: defineTable({
+    category: v.string(),
+  }),
+  tasks: defineTable({
+    category: v.string(),
+    date: v.string(),
+    description: v.string(),
+    name: v.string(),
+    priority: v.string(),
+  })
+  
 });
+
+
