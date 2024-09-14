@@ -2,18 +2,18 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 // For demo purposes. In a real app, you'd have real user data.
 const NAME = faker.person.firstName();
 
-function Chat() {
+export default function App() {
   const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
 
   const [newMessageText, setNewMessageText] = useState("");
 
   useEffect(() => {
+    // Make sure scrollTo works on button click in Chrome
     setTimeout(() => {
       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }, 0);
@@ -57,36 +57,5 @@ function Chat() {
         </button>
       </form>
     </main>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h1>Patient Disease Classification</h1>
-      <p>This is the page about disease classification.</p>
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Chat</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<Chat />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </Router>
   );
 }
