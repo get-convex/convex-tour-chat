@@ -87,7 +87,7 @@ button {
   top: 75px;
   box-shadow: 0 -40px 0 0 var(--primary);
   pointer-events: none;
-  width: 40px;
+  width: 70px;
   height: 80px;
 }
 
