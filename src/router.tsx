@@ -26,7 +26,7 @@ function App() {
           with exact path "/", in component props 
           we passes the imported component*/}
                     <Route
-                        path="/TaskList"
+                        exact path="/"
                         element={<TaskList />}
                     />
 
