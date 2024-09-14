@@ -29,16 +29,17 @@ export default function App() {
       <header>
         <h1>Reach for the Tasks</h1>
       </header>
-      {/* {task?.map((tasks) => (
-        <article
-          key={tasks._id}
-          className={tasks.name === NAME ? "message-mine" : ""}
-        >
-          <div>{tasks.date}</div>
+      {task?.map((tasks) => (
+        <article>
 
-          <p>{tasks.category}</p>
+          <p>Task name: {tasks.category} <br></br>
+          Description: {tasks.description} <br></br>
+          Category: {tasks.category} <br></br>
+          Priority: {tasks.priority} <br></br>
+          Date due: {tasks.date}
+          </p>
         </article>
-      ))} */}
+      ))}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
