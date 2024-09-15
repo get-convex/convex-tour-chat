@@ -349,17 +349,17 @@ article button span {
 }
 
 .complete-button {
-  background-color:#4545c7;
+  background-color: #361749;
   border-radius:10px;
-  border:1px solid #e3db46;
+  border:1px solid #583f71;
   cursor:pointer;
   color:#ffffff;
   font-family:Arial;
-  font-size:21px;
+  font-size:20px;
   padding:18px 31px;
   text-shadow:0px 1px 0px #6a45ff;
 }
 
 .complete-button:hover {
-background-color:#f0af4d;
+background-color:#583f71;
 }
