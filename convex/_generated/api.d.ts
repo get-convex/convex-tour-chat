@@ -17,7 +17,6 @@ import type {
 } from "convex/server";
 import type * as categories from "../categories.js";
 import type * as init from "../init.js";
-import type * as messages from "../messages.js";
 import type * as tasks from "../tasks.js";
 
 /**
@@ -31,7 +30,6 @@ import type * as tasks from "../tasks.js";
 declare const fullApi: ApiFromModules<{
   categories: typeof categories;
   init: typeof init;
-  messages: typeof messages;
   tasks: typeof tasks;
 }>;
 export declare const api: FilterApi<

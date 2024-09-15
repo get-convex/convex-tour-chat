@@ -28,15 +28,23 @@ export default function App() {
   const handlePriorityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedPriority = event.target.value;
     setNewPriority(selectedPriority);
-  };
+};
+
+
+const priorityOrder: { [key in "high" | "medium" | "low"]: number } = { high: 1, medium: 2, low: 3 };
+
+// Sort tasks by priority
+const sortedTasks = task?.slice().sort((a, b) => {
+  return priorityOrder[a.priority as "high" | "medium" | "low"] - priorityOrder[b.priority as "high" | "medium" | "low"];
+});
 
   return (
-    <main className="chat">
+    <main className= "chat">
       <header>
         <h1>Reach for the Tasks</h1>
       </header>
-      {task?.map((tasks) => (
-        <article>
+      {sortedTasks?.map((tasks) => (
+        <article className={`task-box priority-${tasks.priority}`}>
 
           <p>Task name: {tasks.category} <br></br>
           Description: {tasks.description} <br></br>
@@ -98,7 +106,9 @@ export default function App() {
               <option value="medium">Medium</option>
               <option value="low">Low</option>
               setNewPriority();
+              
           </select>
+          
 
         <button type="submit" disabled={!newName}>
           Send
