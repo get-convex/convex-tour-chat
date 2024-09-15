@@ -3,13 +3,16 @@
   "name": "Cosmic Checklist",
   "description": "Extension to facilitate productivity online",
   "version": "1.0",
-  "permissions": ["storage", "tabs", "activeTab", "webNavigation", "alarms"],
+  "permissions": ["https://unpkg.com/convex@1.3.1/dist/browser.bundle.js"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html",
     "default_icon": "logo.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'unsafe-inline' https://unpkg.com/convex@1.3.1/dist/browser.bundle.js; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://unpkg.com/convex@1.3.1/dist/browser.bundle.js"
   }
   
 }

@@ -49,7 +49,7 @@ const sortedTasks = task?.slice().sort((a, b) => {
       {sortedTasks?.map((tasks) => (
         <article className={`task-box priority-${tasks.priority}`}>
 
-          <p>Task name: {tasks.category} <br></br>
+          <p>Task name: {tasks.name} <br></br>
           Description: {tasks.description} <br></br>
           Category: {tasks.category} <br></br>
           Priority: {tasks.priority} <br></br>
