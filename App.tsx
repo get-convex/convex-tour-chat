@@ -63,8 +63,8 @@ function Chat() {
 
 function NavBar() {
   return (
-    <nav className="bg-blue-700 text-white">
-        <ul className="flex flex-row p-2 gap-2 text-xl justify-start">
+    <nav className="bg-primary text-white">
+        <ul className="flex flex-row p-2 px-6 gap-4 justify-start">
           <li>
             <a href="/">Home</a>
           </li>
@@ -97,8 +97,9 @@ function About() {
   return (
     <main className="h-screen w-screen">
       <NavBar />
-      <h1>Patient Disease Classification</h1>
-      <p>This is the page about disease classification.</p>
+      <div className="flex flex-row justify-center">
+        <h1 className="text-4xl m-14 font-bold text-primary">Patient Disease Classification</h1>
+      </div>
       <div className="grid grid-cols-2 grid-rows-2 justify-around">
       <div className="column">
             <div
@@ -272,12 +273,15 @@ function Home() {
       <NavBar />
       <div className="flex flex-col justify-center">
         <div className="flex flex-row justify-start mx-20 mt-40">
-          <h1 className="font-bold mb-4 text-5xl mx-20">The solution to testing patient reaction times for accurate diagnosis</h1>
+        <div>
+        <h1 className="text-primary-dark font-bold text-5xl mx-20">NeuroMetrics</h1>
+        <h1 className="text-primary font-bold mb-4 text-5xl mx-20">The solution to testing patient reaction times for accurate diagnosis</h1>
         </div>
-        <div className="flex flex-row justify-start gap-2 mx-40 mt-4 text-xl">
-          Get Started Now:
-          <a href="/createaccount"><button className="rounded-md py-1 px-2 bg-blue-700 text-white">Create Account</button></a>
-          <a href="/login"><button className="rounded-md py-1 px-2 text-blue-700 bg-white">Log In</button></a>
+        
+        </div>
+        <div className="text-primary-dark flex flex-row justify-start gap-2 mx-40 mt-4 text-xl">
+          <a href="/createaccount"><button className="rounded-md py-1 px-2 bg-primary bg- text-white shadow-md">Create Account</button></a>
+          <a href="/login"><button className="rounded-md py-1 px-2 text-blue-700 bg-secondary shadow-md">Log In</button></a>
         </div>
         </div>
     </main>
@@ -297,27 +301,35 @@ function Login() {
       [name]: value
     })
   }
+
+  const handleSubmit = (e: React.FormEvent) =>{
+    if (formData.username === ""){
+      alert("YOU MUST ENTER A VALID USERNAME")
+    } else if (formData.password === ""){
+      alert("YOU MUST ENTER PASSWORD")
+    }
+  }
   return (
     <main className= "h-screen w-screen  ">
       <NavBar />
       <div className="flex flex-row justify-center">
         <div className="flex flex-col h-full justify-center">
-          <div className="mt-16 bg-white w-60 p-4 rounded-lg shadow-md">
+          <div className="mt-16 bg-secondary-light text-primary-dark w-60 p-4 rounded-lg shadow-md">
             <h1 className="text-bold text-2xl">Log In</h1>
-            <form className="flex flex-col gap-2">
+            <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
               <label>Username:</label>
               <input type="text" name="username" id="username" value={formData.username} onChange={handleInputChange}></input><br />
               <label>Password:</label>
               <input type="password"></input><br />
-              <button type="submit" className="rounded-md p-2 bg-blue-700 text-white" onClick={()=>{alert("Login button pressed")}}>Log In</button>
+              <button type="submit" className="rounded-md p-2 bg-primary text-white">Log In</button>
             </form>
-            <div className="bg-red-200 text-red-800 p-2 my-2 rounded-md flex flex-row justify-start hidden">
+            <div className="bg-primary-dark text-secondary p-2 my-2 rounded-md flex flex-row justify-start hidden">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
               </svg>
               <p>Incorrect Username or Password</p>
             </div>
-            <p className="m-2">Don't have an account? <a href="/createaccount" className="text-blue-700">Create Account</a></p>
+            <p className="m-2">Don't have an account? <a href="/createaccount" className="text-primary">Create Account</a></p>
           </div>
         </div>
       </div>
@@ -345,11 +357,13 @@ function CreateAccount() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await registerDoc({
-      name: formData.name,
-      username: formData.username,
-      password: formData.password
-    })
+    if (formData.name != "" && formData.username != "" && formData.password != "" && formData.password === formData.passwordConfirm){
+      await registerDoc({
+        name: formData.name,
+        username: formData.username,
+        password: formData.password
+      })
+    }
     navigate("/dashboard")
   }
 
@@ -358,7 +372,7 @@ function CreateAccount() {
       <NavBar />
       <div className="flex flex-row justify-center">
         <div className="flex flex-col h-full justify-center">
-          <div className="mt-16 bg-white w-60 p-4 rounded-lg shadow-md">
+          <div className="mt-16 bg-secondary-light text-primary-dark w-60 p-4 rounded-lg shadow-md">
             <h1 className="text-bold text-2xl">Create Account</h1>
             <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
               <label>Name:</label>
@@ -369,9 +383,9 @@ function CreateAccount() {
               <input type="password" name="password" id="password" value={formData.password} onChange={handleInputChange}></input><br />
               <label>Confirm Password:</label>
               <input type="password" name="passwordConfirm" id="passwordConfirm" value={formData.passwordConfirm} onChange={handleInputChange}></input><br />
-              <button type="submit" className="rounded-md p-2 bg-blue-700 text-white" onClick={()=>{alert()}}>Create Account</button>
+              <button type="submit" className="rounded-md p-2 bg-primary text-white" onClick={()=>{alert()}}>Create Account</button>
             </form>
-            <div className="bg-red-200 text-red-800 p-2 my-2 rounded-md flex flex-row justify-start hidden">
+            <div className="bg-primary text-secondary p-2 my-2 rounded-md flex flex-row justify-start hidden">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
               </svg>
@@ -387,12 +401,12 @@ function CreateAccount() {
 function Patient({ lname, fname }: { lname: string , fname: string }) {
   const navigate = useNavigate()
   return (
-    <div className="bg-white shadow-md rounded-md flex flex-row my-4">
-      <div className="flex flex-row justify-between w-full py-4 px-6 text-lg">
+    <div className="bg-secondary-light shadow-md rounded-md flex flex-row my-4">
+      <div className="text-primary-dark flex flex-row justify-between w-full py-4 px-6 text-lg">
         <p>{lname}, {fname}</p>
         <div>
-          <button className="px-2 py-1 mx-2">View Data</button>
-          <button className="px-2 py-1 mx-2 text-white bg-blue-700" onClick={()=>{navigate("/test")}}>Run Test</button>
+          <button className="px-2 py-1 mx-2 bg-secondary text-primary">View Data</button>
+          <button className="px-2 py-1 mx-2 text-secondary bg-primary" onClick={()=>{navigate("/test")}}>Run Test</button>
         </div>
       </div>
     </div>
@@ -400,14 +414,14 @@ function Patient({ lname, fname }: { lname: string , fname: string }) {
 }
 
 function Dashboard() {
+  const getPatients = useQuery(api.messages.listPatients)
   return (
     <main className= "h-screen w-screen  ">
     <NavBar />
     <div className="m-20">
-      <h1 className="text-4xl font-bold">Dashboard</h1>
-    <a href="/addpatient"><button className="bg-blue-700 text-white px-2 py-1 my-2">+ Add Patient</button></a>
+      <h1 className="text-4xl font-bold text-primary-dark">Dashboard</h1>
+    <a href="/addpatient"><button className="bg-primary text-secondary-light px-2 py-1 my-2">+ Add Patient</button></a>
     <div className="grid grid-cols-1">
-      <Patient lname="Fake" fname="Patient"/>
     </div>
     </div>
   </main>
@@ -419,7 +433,7 @@ function Test() {
   return (
     <main className= "h-screen w-screen  ">
       <NavBar />
-      <div class="m-20">
+      <div className="m-20 text-primary-dark">
         <h1 className="text-4xl font-bold">Run Reaction Time Test</h1>
         <p>Place patient's left and right fingers on the buttons. An LED Light will flash, and the patient should immediately press both buttons.</p>
         <form>
@@ -429,8 +443,8 @@ function Test() {
             <option>10</option>
           </select>
         </form>
-        <button className="bg-blue-700 text-white px-2 py-1 m-2 text-xl rounded-md">Begin Test</button>
-        <button disabled className="bg-blue-700 disabled:bg-slate-300 text-white px-2 py-1 my-2 text-xl rounded-md">View Results</button>
+        <button className="bg-primary text-white px-2 py-1 m-2 text-xl rounded-md">Begin Test</button>
+        <button disabled className="bg-primary disabled:bg-slate-300 text-white px-2 py-1 my-2 text-xl rounded-md">View Results</button>
       </div>
     </main>
   )
@@ -535,7 +549,7 @@ function AddPatient() {
   return (
     <main className= "w-screen h-screen">
       <NavBar />
-      <div className="m-10 flex flex-col justify-center w-full">
+      <div className="m-10 flex flex-col justify-center w-full text-primary-dark">
         <h1 className="font-bold text-4xl">Add Patient</h1>
         <form onSubmit={handleSubmit}>
           <h2 className="text-2xl">General Information</h2>
@@ -600,8 +614,8 @@ function AddPatient() {
           <input type="checkbox"  checked={formData.constipation} id="constipation" name="constipation" onChange={handleCheckbox}></input><label> Constipation</label><br />
           <h2 className="text-2xl">Diagnosis</h2>
           <input type="checkbox"  checked={formData.parkinsonsDisease} id="parkinsonsDisease" name="parkinsonsDisease" onChange={handleCheckbox}></input><label> Parkinson's Disease</label><br />
-          <button type="submit" className="rounded-md bg-blue-700 px-2 py-1 m-2 text-white">Submit</button>
-          <button className="px-2 py-1 m-2" onClick={()=>navigate("/dashboard")}>Cancel</button>
+          <button type="submit" className="rounded-md bg-primary px-2 py-1 m-2 text-secondary">Submit</button>
+          <button className="px-2 py-1 m-2 bg-secondary text-primary" onClick={()=>navigate("/dashboard")}>Cancel</button>
         </form>
       </div>
     </main>
