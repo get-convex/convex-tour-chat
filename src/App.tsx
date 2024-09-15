@@ -55,6 +55,7 @@ const sortedTasks = task?.slice().sort((a, b) => {
           Priority: {tasks.priority} <br></br>
           Date due: {tasks.date}
           <button
+            className="complete-button"
             onClick={async () => {
               try {
                 const result = await deleteTask({ name: tasks.name });
