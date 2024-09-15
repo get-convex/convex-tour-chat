@@ -349,17 +349,17 @@
   }
 
   .complete-button {
-    background-color: #8d85dd; /* Green background */
-    border: none; /* Remove borders */
-    color: white; /* White text */
-    padding: 10px 20px; /* Some padding */
-    text-align: center; /* Centered text */
-    font-size: 16px; /* Set font size */
-    cursor: pointer; /* Pointer cursor on over */
-    border-radius: 5px; 
- 
+      background-color:#4545c7;
+      border-radius:36px;
+      border:1px solid #e3db46;
+      cursor:pointer;
+      color:#ffffff;
+      font-family:Arial;
+      font-size:21px;
+      padding:18px 31px;
+      text-shadow:0px 1px 0px #6a45ff;
   }
   
   .complete-button:hover {
-    background-color: #341b4b; 
+    background-color:#f0af4d;
   }
