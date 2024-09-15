@@ -18,4 +18,4 @@ export const send = mutation({
       await ctx.db.insert("categories", { category });
     },
   });
-  
+

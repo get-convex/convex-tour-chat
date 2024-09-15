@@ -38,3 +38,21 @@ export const send = mutation({
       return task;
     },
   });
+
+
+  export const deleteTaskByName = mutation({
+    args: { name: v.string() },
+    handler: async (ctx, { name }) => {
+  
+      const task = await ctx.db.query("tasks").filter(q => q.eq(q.field("name"), name)).first();
+      if (task) {
+       
+        await ctx.db.delete(task._id);
+        return { success: true };
+      } else {
+      
+        return { success: false, message: "Task not found" };
+      }
+    },
+  });
+

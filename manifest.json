@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Cosmic Checklist",
+    "description": "Task manager",
+    "version": "1.0",
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "reach_for_the_tasks.jpg"
+    
+
+
+
+    }
+    
+  }

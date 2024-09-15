@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "convex/react";
-import { api } from "../convex/_generated/api";
+import { api } from "./convex/_generated/api";
 import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
@@ -12,7 +12,7 @@ export default function App() {
   // send adds a new row to the table
   const sendTask = useMutation(api.tasks.send);
 
-  const deleteTask = useMutation(api.tasks.deleteTaskByName);
+//   const deleteTask = useMutation(api.tasks.complete);
 
 
   const [newName, setNewName] = useState("");
@@ -54,24 +54,14 @@ const sortedTasks = task?.slice().sort((a, b) => {
           Category: {tasks.category} <br></br>
           Priority: {tasks.priority} <br></br>
           Date due: {tasks.date}
-          <button
-            onClick={async () => {
-              try {
-                const result = await deleteTask({ name: tasks.name });
-                if (result.success) {
-                  console.log("Task deleted successfully");
-                } else {
-                  console.error(result.message || "Failed to delete task");
-                }
-              } catch (error) {
-                console.error("Failed to delete task", error);
-              }
-            }}
-          >
-            Complete
-          </button>
           </p>
-    
+          {/* <button onClick={async () => {
+            try{
+              await deleteTask(tasks.category);
+            }catch (error){
+              console.error("Failed to delete, error)");
+            }
+          }}></button> */}
         </article>
       ))}
       <form
