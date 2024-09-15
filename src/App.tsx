@@ -62,7 +62,7 @@ function Chat() {
 
 
 
-function About() {
+function PatientAnalytics() {
   useEffect(() => {
     // Create and append the Visme script for both embeds
     const script = document.createElement("script");
@@ -272,14 +272,14 @@ export default function App() {
             <Link to="/">Chat</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/analytics">Patient Analytics</Link>
           </li>
         </ul>
       </nav>
 
       <Routes>
         <Route path="/" element={<Chat />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/analytics" element={<PatientAnalytics />} />
       </Routes>
     </Router>
   );
