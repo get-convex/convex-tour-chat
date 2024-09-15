@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
+import React from "react";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
