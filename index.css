@@ -347,3 +347,19 @@
   article button span {
     padding-left: 0.2em;
   }
+
+  .complete-button {
+    background-color: #8d85dd; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 10px 20px; /* Some padding */
+    text-align: center; /* Centered text */
+    font-size: 16px; /* Set font size */
+    cursor: pointer; /* Pointer cursor on over */
+    border-radius: 5px; 
+ 
+  }
+  
+  .complete-button:hover {
+    background-color: #341b4b; 
+  }
