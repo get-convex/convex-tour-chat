@@ -1,13 +1,65 @@
-// import { useQuery, useMutation } from "convex/react";
-// import { api } from "../convex/_generated/api";
-import React from 'react';
-import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
-
-
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../convex/_generated/api";
+import { React, useEffect, useState } from "react";
+import { faker } from "@faker-js/faker";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import { mutation } from "../convex/_generated/server";
+//const addPatient = useMutation(api.messages.addPatient)
 // For demo purposes. In a real app, you'd have real user data.
+const NAME = faker.person.firstName();
 
-// const addPatient = useMutation(api.messages.addPatient)
+function Chat() {
+  const messages = useQuery(api.messages.list);
+  const sendMessage = useMutation(api.messages.send);
+
+  const [newMessageText, setNewMessageText] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }, 0);
+  }, [messages]);
+
+  return (
+    <main className="chat">
+      <header>
+        <h1>Convex Chat</h1>
+        <p>
+          Connected as <strong>{NAME}</strong>
+        </p>
+      </header>
+      {messages?.map((message) => (
+        <article
+          key={message._id}
+          className={message.author === NAME ? "message-mine" : ""}
+        >
+          <div>{message.author}</div>
+
+          <p>{message.body}</p>
+        </article>
+      ))}
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await sendMessage({ body: newMessageText, author: NAME });
+          setNewMessageText("");
+        }}
+      >
+        <input
+          value={newMessageText}
+          onChange={async (e) => {
+            const text = e.target.value;
+            setNewMessageText(text);
+          }}
+          placeholder="Write a message…"
+        />
+        <button type="submit" disabled={!newMessageText}>
+          Send
+        </button>
+      </form>
+    </main>
+  );
+}
 
 function NavBar() {
   return (
@@ -27,16 +79,21 @@ function NavBar() {
   )
 }
 
+
+
 function About() {
-  return (
-    <main className= "h-screen w-screen  ">
-      <NavBar />
-      <div>
-        <h1>Patient Disease Classification</h1>
-        <p>This is the page about disease classification.</p>
-      </div>
-    </main>
-  );
+  useEffect(() => {
+    // Create and append the Visme script for both embeds
+    const script = document.createElement("script");
+    script.src = "https://static-bundles.visme.co/visme-embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Clean up the script when the component unmounts
+      document.body.removeChild(script);
+    };
+  }, []);
 }
 
 function Home() {
@@ -56,9 +113,6 @@ function Home() {
     </main>
   );
 }
-
-
-
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -101,8 +155,34 @@ function Login() {
   );
 }
 
-
 function CreateAccount() {
+  const navigate = useNavigate()
+  const registerDoc = useMutation(api.messages.registerDoc)
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    password: "",
+    passwordConfirm: ""
+  })
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target
+    console.log(value)
+    setFormData({
+      ... formData,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await registerDoc({
+      name: formData.name,
+      username: formData.username,
+      password: formData.password
+    })
+    navigate("/dashboard")
+  }
+
   return (
     <main className= "h-screen w-screen  ">
       <NavBar />
@@ -110,15 +190,15 @@ function CreateAccount() {
         <div className="flex flex-col h-full justify-center">
           <div className="mt-16 bg-white w-60 p-4 rounded-lg shadow-md">
             <h1 className="text-bold text-2xl">Create Account</h1>
-            <form className="flex flex-col gap-1">
+            <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
               <label>Name:</label>
-              <input name="foo"></input><br />
+              <input name="name" id="name" value={formData.name} type="text" onChange={handleInputChange}></input><br />
               <label>Username:</label>
-              <input></input><br />
+              <input name="username" id="username" value={formData.username} type="text" onChange={handleInputChange}></input><br />
               <label>Password:</label>
-              <input type="password"></input><br />
+              <input type="password" name="password" id="password" value={formData.password} onChange={handleInputChange}></input><br />
               <label>Confirm Password:</label>
-              <input type="password"></input><br />
+              <input type="password" name="passwordConfirm" id="passwordConfirm" value={formData.passwordConfirm} onChange={handleInputChange}></input><br />
               <button type="submit" className="rounded-md p-2 bg-blue-700 text-white" onClick={()=>{alert()}}>Create Account</button>
             </form>
             <div className="bg-red-200 text-red-800 p-2 my-2 rounded-md flex flex-row justify-start hidden">
@@ -165,9 +245,37 @@ function Dashboard() {
 }
 
 
+function Test() {
+  return (
+    <main className= "h-screen w-screen  ">
+      <NavBar />
+      <div class="m-20">
+        <h1 className="text-4xl font-bold">Run Reaction Time Test</h1>
+        <p>Place patient's left and right fingers on the buttons. An LED Light will flash, and the patient should immediately press both buttons.</p>
+        <form>
+          <label>Number of Trials to Run: </label><select>
+            <option>Select</option>
+            <option>5</option>
+            <option>10</option>
+          </select>
+        </form>
+        <button className="bg-blue-700 text-white px-2 py-1 m-2 text-xl rounded-md">Begin Test</button>
+        <button disabled className="bg-blue-700 disabled:bg-slate-300 text-white px-2 py-1 my-2 text-xl rounded-md">View Results</button>
+      </div>
+    </main>
+  )
+}
 
+function Results() {
+  return (
+    <main className= "h-screen w-screen  ">
+      <NavBar />
+    </main>
+  )
+}
 
 function AddPatient() {
+  const addPatient = useMutation(api.messages.addPatient)
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     fname: '',
@@ -221,35 +329,36 @@ function AddPatient() {
       [name]: type === 'checkbox' ? checked : value,    })
   }
 
-  const handleSubmit = await (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form Data:', formData);
-    // await addPatient({
-    //   patientName: {
-    //     first: formData.fname,
-    //     middle: formData.mname,
-    //     last: formData.lname
-    //   },
-    //   patientAge: Number(formData.age),
-    //   patientEthnicity: Number(formData.race),
-    //   patientEducation: Number(formData.education),
-    //   patientBMI: Number(formData.bodyMassIndex),
-    //   patientSmokes: Number(formData.smoking),
-    //   patientAlcoholConsumption: Number(formData.alcoholConsumption),
-    //   patientPhysicalActivity: Number(formData.physicalActivity),
-    //   patientFamilyHistory: Number(formData.historyOfParkinsons),
-    //   patientBrainInjury: Number(formData.traumaticBrainInjury),
-    //   patientHypertension: Number(formData.hypertension),
-    //   patientDiabetes: Number(formData.diabetes),
-    //   patientDepression: Number(formData.depression),
-    //   patientStroke: Number(formData.stroke),
-    //   patientSystolicBP: Number(formData.sysBP),
-    //   patientDiastolicBP: Number(formData.diaBP),
-    //   patientCholestrolHDL: Number(formData.HDLCholesterol),
-    //   patientCholestrolLDL: Number(formData.LDLCholesterol),
-    //   patientCholestrolTotal: Number(formData.totalCholesterol),
-    //   patientCholestrolTriglycerides: Number(formData.triglycerides),
-    // })
+    await addPatient({
+      patientName: {
+        first: formData.fname,
+        middle: formData.mname,
+        last: formData.lname
+      },
+      patientAge: Number(formData.age),
+      patientEthnicity: Number(formData.race),
+      patientEducation: Number(formData.education),
+      patientBMI: Number(formData.bodyMassIndex),
+      patientSmokes: Number(formData.smoking),
+      patientAlcoholConsumption: Number(formData.alcoholConsumption),
+      patientPhysicalActivity: Number(formData.physicalActivity),
+      patientFamilyHistory: Number(formData.historyOfParkinsons),
+      patientBrainInjury: Number(formData.traumaticBrainInjury),
+      patientHypertension: Number(formData.hypertension),
+      patientDiabetes: Number(formData.diabetes),
+      patientDepression: Number(formData.depression),
+      patientStroke: Number(formData.stroke),
+      patientSystolicBP: Number(formData.sysBP),
+      patientDiastolicBP: Number(formData.diaBP),
+      patientCholestrolHDL: Number(formData.HDLCholesterol),
+      patientCholestrolLDL: Number(formData.LDLCholesterol),
+      patientCholestrolTotal: Number(formData.totalCholesterol),
+      patientCholestrolTriglycerides: Number(formData.triglycerides),
+      doctorID: "k573q5c84z5efb3pzem04knznx70vxdx"
+    })
     console.log("Submission Successful patient added. !")
     navigate("/dashboard")
   }
@@ -267,24 +376,24 @@ function AddPatient() {
           <label> Biological Sex: </label>
           <select id="sex" name="sex" value={formData.sex} onChange={handleInputChange}>
             <option value="Select">Select</option>
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
+            <option value="2">Female</option>
+            <option value="1">Male</option>
           </select>
           <label> Race: </label>
           <select id="race" name="race" value={formData.race} onChange={handleInputChange}>
             <option value = "Select">Select</option>
-            <option value="African American">African American</option>
-            <option value="Asian">Asian</option>
-            <option value="Caucasian">Caucasian</option>
-            <option value="Other">Other</option>
+            <option value="1">African American</option>
+            <option value="2">Asian</option>
+            <option value="0">Caucasian</option>
+            <option value="3">Other</option>
           </select>
           <label> Education: </label>
           <select  name="education" id="education" value={formData.education} onChange={handleInputChange}>
             <option value="Select">Select</option>
-            <option value="No Education">Less than High School</option>
-            <option value="High School">High School Diploma</option>
-            <option value="Bachelors">Bachelor's Degree</option>
-            <option value="Higher">Graduate Degree</option>
+            <option value="0">Less than High School</option>
+            <option value="1">High School Diploma</option>
+            <option value="2">Bachelor's Degree</option>
+            <option value="3">Graduate Degree</option>
           </select>
           <br />
           <h2 className="text-2xl">Medical History</h2>
@@ -297,15 +406,15 @@ function AddPatient() {
           <input type="checkbox" checked={formData.stroke} id="stroke" name="stroke" onChange={handleCheckbox}></input><label> Stroke</label><br />
           <h2 className="text-2xl">Lifestyle</h2>
           <input type="checkbox" checked={formData.smoking} id="smoking" name="smoking" onChange={handleCheckbox}></input><label> Smoking</label>
-          <label>Alcohol Consumption: </label><input id="alcoholConsumption" name="alcoholConsumption" type="text" value={formData.alcoholConsumption} onChange={handleInputChange}></input>
-          <label>Physical Activity: </label><input id="physicalActivity" name="physicalActivity" type="text" value={formData.physicalActivity} onChange={handleInputChange}></input>
+          <label>Alcohol Consumption (units/week): </label><input id="alcoholConsumption" name="alcoholConsumption" type="text" value={formData.alcoholConsumption} onChange={handleInputChange}></input>
+          <label>Physical Activity (hours/week): </label><input id="physicalActivity" name="physicalActivity" type="text" value={formData.physicalActivity} onChange={handleInputChange}></input>
           <label>Body Mass Index: </label><input id="bodyMassIndex" name="bodyMassIndex" type="text" value={formData.bodyMassIndex} onChange={handleInputChange}></input><br />
           <h2 className="text-2xl">Clinical Measurements</h2>
-          <label>Blood Pressure: </label><input id="sysBP" name="sysBP" type="text" value={formData.sysBP} onChange={handleInputChange}></input>/<input id="diaBP" name="diaBP" type="text" value={formData.diaBP} onChange={handleInputChange}></input><br />
-          <label>Cholesterol: Total </label><input id="totalCholesterol" name="totalCholesterol" type="text" value={formData.totalCholesterol} onChange={handleInputChange}></input>
-          <label> LDL </label><input id="LDLCholesterol" name="LDLCholesterol" type="text" value={formData.LDLCholesterol} onChange={handleInputChange}></input>
-          <label> HDL </label><input id="HDLCholesterol" name="HDLCholesterol" type="text" value={formData.HDLCholesterol} onChange={handleInputChange}></input>
-          <label> Triglycerides </label><input id="triglycerides" name="triglycerides" type="text" value={formData.triglycerides} onChange={handleInputChange}></input><br />
+          <label>Blood Pressure: </label><input id="sysBP" name="sysBP" type="text" value={formData.sysBP} onChange={handleInputChange}></input> mmHg/<input id="diaBP" name="diaBP" type="text" value={formData.diaBP} onChange={handleInputChange}></input> mmHg<br />
+          <label>Cholesterol (mg/dL): Total </label><input id="totalCholesterol" name="totalCholesterol" type="text" value={formData.totalCholesterol} onChange={handleInputChange}></input>
+          <label> LDL (mg/dL): </label><input id="LDLCholesterol" name="LDLCholesterol" type="text" value={formData.LDLCholesterol} onChange={handleInputChange}></input>
+          <label> HDL (mg/dL): </label><input id="HDLCholesterol" name="HDLCholesterol" type="text" value={formData.HDLCholesterol} onChange={handleInputChange}></input>
+          <label> Triglycerides (mg/dL): </label><input id="triglycerides" name="triglycerides" type="text" value={formData.triglycerides} onChange={handleInputChange}></input><br />
           <h2 className="text-2xl">Clinical Measurements</h2>
           <label>UPDRS (Unified PArkinson's Disease Rating Scale Score): </label><input id="updrs" name="updrs" type="text" value={formData.updrs} onChange={handleInputChange}></input>
           <label>MoCA (Montreal Cognitive Assessment Score): </label><input id="moca" name="moca" type="text" value={formData.moca} onChange={handleInputChange}></input>
@@ -329,67 +438,19 @@ function AddPatient() {
   )
 }
 
-function Test({ lname , fname , sex , age }: { lname: string, fname: string, sex: string, age: string}) {
-  return (
-    <main className= "h-screen w-screen  ">
-      <NavBar />
-      <div class="m-20">
-        <h1 className="text-4xl font-bold">Run Reaction Time Test</h1>
-        <p>Place patient's left and right fingers on the buttons. An LED Light will flash, and the patient should immediately press both buttons.</p>
-        <p>Before running the test, please review the following patient information:</p>
-        <p><strong>Name: </strong> {lname}, {fname}</p>
-        <p><strong>Sex: </strong> {sex}</p>
-        <p><strong>Age: </strong> {age}</p>
-        <form>
-          <label>Number of Trials to Run: </label><select>
-            <option>Select</option>
-            <option>5</option>
-            <option>10</option>
-          </select>
-        </form>
-        <button className="bg-blue-700 text-white px-2 py-1 m-2 text-xl rounded-md">Begin Test</button>
-        <button disabled className="bg-blue-700 disabled:bg-slate-300 text-white px-2 py-1 my-2 text-xl rounded-md">View Results</button>
-      </div>
-    </main>
-  )
-}
-
-function Results() {
-  return (
-    <main className= "h-screen w-screen  ">
-      <NavBar />
-    </main>
-  )
-}
-
-
-
-
-
-
-
-
-
-
-// // //
-
-
-
-
-
-
 export default function App() {
   return (
     <Router>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/createaccount" element={<CreateAccount />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/addpatient" element={<AddPatient />} />
         <Route path="/results" element={<Results />} />
         <Route path="/about" element={<About />} />
+        <Route path="/addpatient" element={<AddPatient />} />
       </Routes>
     </Router>
   );
