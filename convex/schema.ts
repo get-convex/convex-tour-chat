@@ -24,18 +24,18 @@ export default defineSchema({
       last: v.string()
   }), //First Last
     patientAge: v.number(),
-    patientEthnicity: v.union(v.literal(3), v.literal(2), v.literal(1), v.literal(0)), // 0: Caucasian, 1: African American, 2: Asian, 3: Other
-    patientEducation: v.union(v.literal(3), v.literal(2), v.literal(1), v.literal(0)), //3: higher, 2: bachelors, 1: high school, 0: none
+    patientEthnicity: v.number(), // 0: Caucasian, 1: African American, 2: Asian, 3: Other
+    patientEducation: v.number(), //3: higher, 2: bachelors, 1: high school, 0: none
     patientBMI: v.number(), 
-    patientSmokes: v.union(v.literal(1), v.literal(0)), //0 for no smoke, 1 for yes smoke
+    patientSmokes: v.number(), //0 for no smoke, 1 for yes smoke
     patientAlcoholConsumption: v.number(), //alcohol consumption in units(10ml per unit)
     patientPhysicalActivity: v.number(), //number of hours 
-    patientFamilyHistory: v.union(v.literal(1), v.literal(0)), //0 for no family history of parkinsons, 1 for yes
-    patientBrainInjury: v.union(v.literal(1), v.literal(0)), //0 for no, 1 for yes traumatic brain injury
-    patientHypertension: v.union(v.literal(1), v.literal(0)), //presence
-    patientDiabetes: v.union(v.literal(1), v.literal(0)), //presence
-    patientDepression: v.union(v.literal(1), v.literal(0)), //presence
-    patientStroke: v.union(v.literal(1), v.literal(0)), //history
+    patientFamilyHistory: v.number(), //0 for no family history of parkinsons, 1 for yes
+    patientBrainInjury: v.number(), //0 for no, 1 for yes traumatic brain injury
+    patientHypertension: v.number(), //presence
+    patientDiabetes: v.number(), //presence
+    patientDepression: v.number(), //presence
+    patientStroke: v.number(), //history
     patientSystolicBP: v.number(), //mmHg of systolic blood pressure
     patientDiastolicBP: v.number(), //mmHg
     patientCholestrolTotal: v.number(), //mg/dL for all cholestrols
@@ -47,9 +47,9 @@ export default defineSchema({
   }),
   tests: defineTable({ //for each test:
     nRounds: v.number(), //how many rounds of testing
-    testType: v.union(v.literal("visual"), v.literal("auditory"), v.literal("mix")), //0 for visual, 1 for auditory, 2 for mix?
+    testType: v.string(), //0 for visual, 1 for auditory, 2 for mix?
     reactionResults: v.array(v.number()), //array of trial times, the time it took from sound/viisual to button press
-    pressResults: v.array( v.number()), //time person was pressing button for each trial
+    pressResults: v.array(v.number()), //time person was pressing button for each trial
     patient: v.id("patients"), //patient's id
     // date: v.object({ //datetime of the test initialization
     //   month: v.int64(),
@@ -57,7 +57,7 @@ export default defineSchema({
     //   year: v.int64(),
     //   time: v.number(), //time as a decimal hours 1-24 . minutes 0-59, 12pm = 12.00
     // }),
-    outcome: v.union(v.literal(1), v.literal(0), v.literal(-1)), //either Parkinsons (1) or no disease (0)
+    outcome: v.number(), //either Parkinsons (1) or no disease (0)
   }),
   ...authTables, //authentication
 

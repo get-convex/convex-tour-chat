@@ -28,18 +28,18 @@ export const addPatient = mutation({
     last: v.string()
     }), //First Last
     patientAge: v.number(),
-    patientEthnicity: v.union(v.literal(3), v.literal(2), v.literal(1), v.literal(0)), // 0: Caucasian, 1: African American, 2: Asian, 3: Other
-    patientEducation: v.union(v.literal(3), v.literal(2), v.literal(1), v.literal(0)), //3: higher, 2: bachelors, 1: high school, 0: none
+    patientEthnicity: v.number(), // 0: Caucasian, 1: African American, 2: Asian, 3: Other
+    patientEducation: v.number(), //3: higher, 2: bachelors, 1: high school, 0: none
     patientBMI: v.number(), 
-    patientSmokes: v.union(v.literal(1), v.literal(0)), //0 for no smoke, 1 for yes smoke
+    patientSmokes: v.number(), //0 for no smoke, 1 for yes smoke
     patientAlcoholConsumption: v.number(), //alcohol consumption in units(10ml per unit)
     patientPhysicalActivity: v.number(), //number of hours 
-    patientFamilyHistory: v.union(v.literal(1), v.literal(0)), //0 for no family history of parkinsons, 1 for yes
-    patientBrainInjury: v.union(v.literal(1), v.literal(0)), //0 for no, 1 for yes traumatic brain injury
-    patientHypertension: v.union(v.literal(1), v.literal(0)), //presence
-    patientDiabetes: v.union(v.literal(1), v.literal(0)), //presence
-    patientDepression: v.union(v.literal(1), v.literal(0)), //presence
-    patientStroke: v.union(v.literal(1), v.literal(0)), //history
+    patientFamilyHistory: v.number(), //0 for no family history of parkinsons, 1 for yes
+    patientBrainInjury: v.number(), //0 for no, 1 for yes traumatic brain injury
+    patientHypertension: v.number(), //presence
+    patientDiabetes: v.number(), //presence
+    patientDepression: v.number(), //presence
+    patientStroke: v.number(), //history
     patientSystolicBP: v.number(), //mmHg of systolic blood pressure
     patientDiastolicBP: v.number(), //mmHg
     patientCholestrolTotal: v.number(), //mg/dL for all cholestrols
@@ -112,7 +112,7 @@ export const updatePatientAge = mutation({
 export const updatePatientEthnicity = mutation({
   args: {
     patientID: v.id("patients"),
-    patientEthinicity: v.union(v.literal(3), v.literal(2), v.literal(1), v.literal(0))
+    patientEthinicity: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientEthnicity: args.patientEthinicity});
@@ -122,7 +122,7 @@ export const updatePatientEthnicity = mutation({
 export const updatePatientEducation = mutation({
   args: {
     patientID: v.id("patients"),
-    patientEducation: v.union(v.literal(3), v.literal(2), v.literal(1), v.literal(0))
+    patientEducation: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientEducation: args.patientEducation});
@@ -142,7 +142,7 @@ export const updatePatientBMI = mutation({
 export const updatePatientSmokes = mutation({
   args: {
     patientID: v.id("patients"),
-    patientSmokes: v.union(v.literal(1), v.literal(0))
+    patientSmokes: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientSmokes: args.patientSmokes});
@@ -152,7 +152,7 @@ export const updatePatientSmokes = mutation({
 export const updatePatientAlcoholConsumption = mutation({
   args: {
     patientID: v.id("patients"),
-    patientAlcohol: v.union(v.literal(1), v.literal(0))
+    patientAlcohol: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientAlcoholConsumption: args.patientAlcohol});
@@ -172,7 +172,7 @@ export const updatePatientPhysicalActivity= mutation({
 export const updatePatientFamilyHistory= mutation({
   args: {
     patientID: v.id("patients"),
-    patientHist: v.union(v.literal(1), v.literal(0))
+    patientHist: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientFamilyHistory: args.patientHist});
@@ -182,7 +182,7 @@ export const updatePatientFamilyHistory= mutation({
 export const updatePatientBrainInjury= mutation({
   args: {
     patientID: v.id("patients"),
-    patientBrainInjury: v.union(v.literal(1), v.literal(0))
+    patientBrainInjury: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientBrainInjury: args.patientBrainInjury});
@@ -192,7 +192,7 @@ export const updatePatientBrainInjury= mutation({
 export const updatePatientHypertension= mutation({
   args: {
     patientID: v.id("patients"),
-    patientHypertension: v.union(v.literal(1), v.literal(0))
+    patientHypertension: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientHypertension: args.patientHypertension});
@@ -202,7 +202,7 @@ export const updatePatientHypertension= mutation({
 export const updatePatientDiabetes= mutation({
   args: {
     patientID: v.id("patients"),
-    patientDiabetes: v.union(v.literal(1), v.literal(0))
+    patientDiabetes: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientDiabetes: args.patientDiabetes});
@@ -212,7 +212,7 @@ export const updatePatientDiabetes= mutation({
 export const updatePatientDepression= mutation({
   args: {
     patientID: v.id("patients"),
-    patientDepression: v.union(v.literal(1), v.literal(0))
+    patientDepression: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientDepression: args.patientDepression});
@@ -222,7 +222,7 @@ export const updatePatientDepression= mutation({
 export const updatePatientStroke= mutation({
   args: {
     patientID: v.id("patients"),
-    patientStroke: v.union(v.literal(1), v.literal(0))
+    patientStroke: v.number()
   },
   handler: async (ctx, args) => {
     await ctx.db.patch(args.patientID, {patientStroke: args.patientStroke});
@@ -320,7 +320,7 @@ export const registerDoc = mutation({
 //begins a new test
 export const beginTest = mutation({
   args: {
-    testType: v.union(v.literal("visual"), v.literal("auditory"), v.literal("mix")),
+    testType: v.string(),
     nRounds: v.number(),
     patient: v.id("patients")
   },
@@ -340,6 +340,17 @@ export const beginTest = mutation({
     });
   },
 })
+
+
+export const getDocByName = query({  //reeturns the document of specified doctor (their username)
+  args: {username: v.string()}, //
+  handler: async (ctx, args) => {
+    // Grab first unique doctor by their usename
+    const doc = await ctx.db.query("doctors").filter(q => q.eq(q.field("doctorUsername"), args.username)).unique();
+    console.log("doc", doc);
+    return doc;
+  },
+});
 
 
 //the code for each round of test (read in from arduino?)
