@@ -7,11 +7,7 @@ import { faker } from "@faker-js/faker";
 const NAME = faker.person.firstName();
 
 export default function App() {
-  const messages = useQuery({
-    query: api.messages.list,
-    args: {},
-    throwOnError: true,
-  }).data;
+  const messages = useQuery(api.messages.list);
   const sendMessage = useMutation(api.messages.send);
 
   const [newMessageText, setNewMessageText] = useState("");
