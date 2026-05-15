@@ -1,5 +1,5 @@
 {
-  "name": "convex-tour-chat-1",
+  "name": "convex-tour-chat-2",
   "version": "0.0.0",
   "scripts": {
     "dev": "convex dev --run init --start 'vite --open'",
